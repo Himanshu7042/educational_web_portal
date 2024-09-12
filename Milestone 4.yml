@@ -1,0 +1,630 @@
+openapi: 3.0.0
+info:
+  title: Programming Learning Platform API
+  version: 1.0.0
+paths:
+  /api/auth/login:
+    post:
+      summary: Authenticate a user and issue a token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Successful authentication
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+
+  /api/auth/register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: User successfully registered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  email:
+                    type: string
+
+  /api/auth/logout:
+    post:
+      summary: Log out a user and invalidate their token
+      responses:
+        '200':
+          description: Successful logout
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /api/courses:
+    get:
+      summary: Retrieve a list of all available courses
+      responses:
+        '200':
+          description: List of courses retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    title:
+                      type: string
+                    description:
+                      type: string
+    post:
+      summary: Create a new course
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '200':
+          description: Course created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  title:
+                    type: string
+                  description:
+                    type: string
+
+  /api/courses/{id}:
+    get:
+      summary: Retrieve details of a specific course
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Course ID
+      responses:
+        '200':
+          description: Course details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  title:
+                    type: string
+                  description:
+                    type: string
+    put:
+      summary: Update a specific course
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Course ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '200':
+          description: Course updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  title:
+                    type: string
+                  description:
+                    type: string
+    delete:
+      summary: Delete a specific course
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Course ID
+      responses:
+        '200':
+          description: Course deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /api/courses/{id}/content:
+    get:
+      summary: Retrieve content for a specific course
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Course ID
+      responses:
+        '200':
+          description: Course content retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    contentId:
+                      type: string
+                    title:
+                      type: string
+                    body:
+                      type: string
+    post:
+      summary: Add new content to a course
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Course ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                body:
+                  type: string
+      responses:
+        '200':
+          description: Content added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  contentId:
+                    type: string
+                  title:
+                    type: string
+                  body:
+                    type: string
+
+  /api/courses/{id}/content/{contentId}:
+    put:
+      summary: Update specific content in a course
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Course ID
+        - in: path
+          name: contentId
+          schema:
+            type: string
+          required: true
+          description: Content ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                body:
+                  type: string
+      responses:
+        '200':
+          description: Content updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  contentId:
+                    type: string
+                  title:
+                    type: string
+                  body:
+                    type: string
+    delete:
+      summary: Delete specific content from a course
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Course ID
+        - in: path
+          name: contentId
+          schema:
+            type: string
+          required: true
+          description: Content ID
+      responses:
+        '200':
+          description: Content deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /api/courses/{id}/quizzes:
+    get:
+      summary: Retrieve quizzes for a specific course
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Course ID
+      responses:
+        '200':
+          description: Quizzes retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    quizId:
+                      type: string
+                    title:
+                      type: string
+                    questions:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          question:
+                            type: string
+                          options:
+                            type: array
+                            items:
+                              type: string
+                          correctAnswer:
+                            type: string
+    post:
+      summary: Create a new quiz for a course
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Course ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                questions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      question:
+                        type: string
+                      options:
+                        type: array
+                        items:
+                          type: string
+                      correctAnswer:
+                        type: string
+      responses:
+        '200':
+          description: Quiz created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  quizId:
+                    type: string
+                  title:
+                    type: string
+                  questions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        question:
+                          type: string
+                        options:
+                          type: array
+                          items:
+                            type: string
+                        correctAnswer:
+                          type: string
+
+  /api/courses/{id}/quizzes/{quizId}:
+    get:
+      summary: Retrieve details of a specific quiz
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Course ID
+        - in: path
+          name: quizId
+          schema:
+            type: string
+          required: true
+          description: Quiz ID
+      responses:
+        '200':
+          description: Quiz details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  quizId:
+                    type: string
+                  title:
+                    type: string
+                  questions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        question:
+                          type: string
+                        options:
+                          type: array
+                          items:
+                            type: string
+                        correctAnswer:
+                          type: string
+    put:
+      summary: Update details of a specific quiz
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Course ID
+        - in: path
+          name: quizId
+          schema:
+            type: string
+          required: true
+          description: Quiz ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                questions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      question:
+                        type: string
+                      options:
+                        type: array
+                        items:
+                          type: string
+                      correctAnswer:
+                        type: string
+      responses:
+        '200':
+          description: Quiz updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  quizId:
+                    type: string
+                  title:
+                    type: string
+                  questions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        question:
+                          type: string
+                        options:
+                          type: array
+                          items:
+                            type: string
+                        correctAnswer:
+                          type: string
+    delete:
+      summary: Delete a specific quiz
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Course ID
+        - in: path
+          name: quizId
+          schema:
+            type: string
+          required: true
+          description: Quiz ID
+      responses:
+        '200':
+          description: Quiz deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /api/genai/summarize:
+    post:
+      summary: Summarize content using AI
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+      responses:
+        '200':
+          description: Content summarized successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  summary:
+                    type: string
+
+  /api/genai/error-detection:
+    post:
+      summary: Detect and suggest corrections for code errors using AI
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+      responses:
+        '200':
+          description: Code analyzed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        line:
+                          type: integer
+                        message:
+                          type: string
+                  suggestions:
+                    type: array
+                    items:
+                      type: string
+
+  /api/genai/feedback:
+    post:
+      summary: Collect user feedback for AI improvement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                feedback:
+                  type: string
+      responses:
+        '200':
+          description: Feedback collected successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
